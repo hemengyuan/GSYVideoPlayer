@@ -30,6 +30,8 @@ public interface IPlayerManager {
 
     /**
      * 设置渲染显示
+     * <p>
+     *     绑定Surface与视频解码器
      */
     void showDisplay(Message msg);
 

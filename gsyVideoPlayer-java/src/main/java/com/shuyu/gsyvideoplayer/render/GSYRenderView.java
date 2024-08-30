@@ -3,6 +3,7 @@ package com.shuyu.gsyvideoplayer.render;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,8 @@ public class GSYRenderView {
                         final MeasureHelper.MeasureFormVideoParamsListener videoParamsListener,
                         final GSYVideoGLView.ShaderInterface effect, final float[] transform,
                         final GSYVideoGLViewBaseRender customRender, int mode) {
+        // 选择不同的用于渲染内容的视图
+        Log.i("add_view", "addView");
         if (GSYVideoType.getRenderType() == GSYVideoType.SUFRACE) {
             mShowView = GSYSurfaceView.addSurfaceView(context, textureViewContainer, rotate, gsySurfaceListener, videoParamsListener);
         } else if (GSYVideoType.getRenderType() == GSYVideoType.GLSURFACE) {

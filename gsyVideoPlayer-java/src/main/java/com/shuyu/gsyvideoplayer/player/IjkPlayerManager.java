@@ -129,6 +129,7 @@ public class IjkPlayerManager extends BasePlayerManager {
             Surface holder = (Surface) msg.obj;
             surface = holder;
             if (mediaPlayer != null && holder.isValid()) {
+                // !!! 设置 Surface，绑定到视频解码器
                 mediaPlayer.setSurface(holder);
             }
         }

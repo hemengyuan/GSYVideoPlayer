@@ -6,6 +6,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.ViewGroup;
@@ -70,6 +71,8 @@ public abstract class GSYTextureRenderView extends FrameLayout implements IGSYSu
 
     @Override
     public void onSurfaceAvailable(Surface surface) {
+        // 显示暂停视图 & 绑定视图与解码器（持续播放）
+//        Log.i("GSYTextureRenderView", "----> available");
         pauseLogic(surface, (mTextureView != null && mTextureView.getShowView() instanceof TextureView));
     }
 
@@ -104,6 +107,7 @@ public abstract class GSYTextureRenderView extends FrameLayout implements IGSYSu
         if (pauseLogic)
             //显示暂停切换显示的图片
             showPauseCover();
+        // ！！！将解码器与TextureView等视图进行绑定
         setDisplay(mSurface);
     }
 
@@ -112,6 +116,7 @@ public abstract class GSYTextureRenderView extends FrameLayout implements IGSYSu
      * 继承后重载addTextureView，继承GSYRenderView后实现自己的IGSYRenderView类，既可以使用自己自定义的显示层
      */
     protected void addTextureView() {
+        //
         mTextureView = new GSYRenderView();
         mTextureView.addView(getContext(), mTextureViewContainer, mRotate, this, this, mEffectFilter, mMatrixGL, mRenderer, mMode);
     }

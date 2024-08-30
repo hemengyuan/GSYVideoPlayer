@@ -379,16 +379,20 @@ public class StandardGSYVideoPlayer extends GSYVideoPlayer {
      */
     @Override
     protected void onClickUiToggle(MotionEvent e) {
+        // 显示解锁按钮
         if (mIfCurrentIsFullscreen && mLockCurScreen && mNeedLockFull) {
             setViewShowState(mLockScreen, VISIBLE);
             return;
         }
 
+        // 全屏 & 错误时自动重试 & 当前状态为错误状态
         if (mIfCurrentIsFullscreen && !mSurfaceErrorPlay && mCurrentState == CURRENT_STATE_ERROR) {
             if (mBottomContainer != null) {
                 if (mBottomContainer.getVisibility() == View.VISIBLE) {
+                    // 显示加载中
                     changeUiToPlayingClear();
                 } else {
+                    // 不显示加载中
                     changeUiToPlayingShow();
                 }
             }

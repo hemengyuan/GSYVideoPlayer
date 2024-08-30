@@ -333,6 +333,7 @@ public abstract class GSYVideoView extends GSYTextureRenderView implements GSYMe
             Debuger.printfLog("onStartPrepared");
             mVideoAllCallBack.onStartPrepared(mOriginUrl, mTitle, this);
         }
+        // 设置了监听器 在prepare完毕后会自动播放
         getGSYVideoManager().setListener(this);
         getGSYVideoManager().setPlayTag(mPlayTag);
         getGSYVideoManager().setPlayPosition(mPlayPosition);
@@ -600,6 +601,7 @@ public abstract class GSYVideoView extends GSYTextureRenderView implements GSYMe
             return;
         }
 
+        // 准备完成 开始播放
         startAfterPrepared();
     }
 
@@ -825,6 +827,7 @@ public abstract class GSYVideoView extends GSYTextureRenderView implements GSYMe
             e.printStackTrace();
         }
 
+        //
         addTextureView();
 
         createNetWorkState();

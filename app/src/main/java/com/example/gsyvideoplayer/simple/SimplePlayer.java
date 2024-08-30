@@ -68,6 +68,7 @@ public class SimplePlayer extends AppCompatActivity {
         ///不需要屏幕旋转
         videoPlayer.setNeedOrientationUtils(false);
 
+        // 开启播放
         videoPlayer.startPlayLogic();
     }
 

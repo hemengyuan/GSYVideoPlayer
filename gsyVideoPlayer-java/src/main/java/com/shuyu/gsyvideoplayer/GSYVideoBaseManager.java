@@ -204,6 +204,7 @@ public abstract class GSYVideoBaseManager implements IMediaPlayer.OnPreparedList
 
     @Override
     public void prepare(final String url, final Map<String, String> mapHeadData, boolean loop, float speed, boolean cache, File cachePath, String overrideExtension) {
+        // 准备播放
         if (TextUtils.isEmpty(url)) return;
         Message msg = new Message();
         msg.what = HANDLER_PREPARE;
@@ -261,6 +262,7 @@ public abstract class GSYVideoBaseManager implements IMediaPlayer.OnPreparedList
             public void run() {
                 cancelTimeOutBuffer();
                 if (listener() != null) {
+                    // 普通播放 开始播放
                     listener().onPrepared();
                 }
             }
@@ -578,6 +580,7 @@ public abstract class GSYVideoBaseManager implements IMediaPlayer.OnPreparedList
             super.handleMessage(msg);
             switch (msg.what) {
                 case HANDLER_PREPARE:
+                    // prepare
                     initVideo(msg);
                     if (needTimeOutOther) {
                         startTimeOutBuffer();

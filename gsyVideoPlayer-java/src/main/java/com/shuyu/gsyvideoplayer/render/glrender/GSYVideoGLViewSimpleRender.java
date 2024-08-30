@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 import android.view.Surface;
 
 import com.shuyu.gsyvideoplayer.render.view.GSYVideoGLView;
@@ -96,19 +97,27 @@ public class GSYVideoGLViewSimpleRender extends GSYVideoGLViewBaseRender {
     public void onDrawFrame(GL10 glUnused) {
         synchronized (this) {
             if (mUpdateSurface) {
+                // 从视频解码器获取新的帧数据并将其绑定到纹理上
                 mSurface.updateTexImage();
+                // 获取一个 4x4 矩阵，用于处理纹理坐标的变换。mSTMatrix 是一个 float 数组，用于存储这个矩阵。这个矩阵可以用于在渲染时对纹理进行旋转、缩放或其他变换操作。
                 mSurface.getTransformMatrix(mSTMatrix);
                 mUpdateSurface = false;
             }
         }
+
+        // 可能用于初始化绘制帧所需的一些基本设置，比如清空屏幕颜色，设置视口等
         initDrawFrame();
 
+        // 绑定要绘制的纹理
         bindDrawFrameTexture();
 
+        // 置顶点指针和绘制图元
         initPointerAndDraw();
 
+        // 捕获当前帧的内容并生成一个 Bitmap。它通常会在需要截图或对当前渲染内容进行后续处理时使用
         takeBitmap(glUnused);
 
+        // 确保所有的 OpenGL 命令在这个点之前都已经完成执行。它通常用于确保渲染操作完成，尤其在需要捕获当前帧或进行某些依赖于渲染完成的操作时
         GLES20.glFinish();
 
     }
@@ -175,11 +184,14 @@ public class GSYVideoGLViewSimpleRender extends GSYVideoGLViewBaseRender {
 
         Surface surface = new Surface(mSurface);
 
+        // ！！！ 将解码后的图像传送至播放器界面渲染
+        Log.i("RENDER", "有新的surface需要绘制到界面中");
         sendSurfaceForPlayer(surface);
     }
 
     @Override
     synchronized public void onFrameAvailable(SurfaceTexture surface) {
+        // 标识有新的帧需要复制
         mUpdateSurface = true;
     }
 
@@ -259,6 +271,7 @@ public class GSYVideoGLViewSimpleRender extends GSYVideoGLViewBaseRender {
                 0);
         GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
 
+        Log.i("RENDER", "开始绘制新surface");
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         checkGlError("glDrawArrays");
 
